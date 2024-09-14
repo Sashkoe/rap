@@ -11,7 +11,7 @@
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "Andrii Zhygalko <andrii.zhygalko@gmail.com>",
+  "author": "Oleksandr Astakhov <revolver.bmx@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.9.1",
