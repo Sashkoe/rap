@@ -1,38 +1,41 @@
-import express from 'express';
-import env from './utils/env.js';
-import pino from 'pino-http';
-import cors from 'cors';
-import { getAllContacts, getContactById } from './services/contacts.js';
+ import express from 'express';
+ import env from './utils/env.js';
+ import pino from 'pino-http';
+ import cors from 'cors';
+ import { getAllContacts, getContactById } from './services/contacts.js';
+ import dotenv from 'dotenv';
 
-const PORT = Number(env('PORT', '3000'));
+ dotenv.config();
 
-export default function setupServer() {
-  const app = express();
+ const PORT = Number(env('PORT', '3000'));
 
-  app.use(
-    pino({
-      transport: { target: 'pino-pretty' },
-    }),
-  );
+ export default function setupServer() {
+   const app = express();
 
-  app.use(cors());
+   app.use(
+     pino({
+       transport: { target: 'pino-pretty' },
+     }),
+   );
 
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getAllContacts();
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
+   app.use(cors());
 
-  app.get('/contacts/:contactId', async (req, res) => {
-    const { contactId } = req.params;
-    const contact = await getContactById(contactId);
-    if (!contact) {
-      res.status(404).json({
-        message: 'Contact not found',
-      });
+   app.get('/contacts', async (req, res) => {
+     const contacts = await getAllContacts();
+     res.status(200).json({
+       status: 200,
+       message: 'Successfully found contacts!',
+       data: contacts,
+     });
+   });
+
+   app.get('/contacts/:contactId', async (req, res) => {
+     const { contactId } = req.params;
+     const contact = await getContactById(contactId);
+     if (!contact) {
+       res.status(404).json({
+         message: 'Contact not found',
+       });
       return;
     }
 
@@ -49,7 +52,7 @@ export default function setupServer() {
     });
   });
 
-  app.listen(PORT, () => {
+   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
-}
+ }
