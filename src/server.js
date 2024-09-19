@@ -5,7 +5,7 @@
  import { getAllContacts, getContactById } from './services/contacts.js';
  import dotenv from 'dotenv';
 
- dotenv.config();
+dotenv.config();
 
  const PORT = Number(env('PORT', '3000'));
 
