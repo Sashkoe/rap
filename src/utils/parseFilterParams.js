@@ -1,31 +1,13 @@
-const parseType = (type) => {
-  const isString = typeof type === 'string';
-  if (!isString) return;
-  const isType = (type) => ['work', 'home', 'personal'].includes(type);
-
-  if (isType(type)) return type;
-};
-
-const parseIsFavourite = (isFavourite, defaultValue = undefined) => {
-  const isString = typeof isFavourite === 'string';
-  if (!isString) return defaultValue;
-
-  const parsedIsFavourite =
-    isFavourite === 'true' || isFavourite === 'false'
-      ? isFavourite
-      : defaultValue;
-
-  return parsedIsFavourite;
-};
+import { BOOLEANS, CONTACTS_FILTER } from '../constants/index.js';
 
 export const parseFilterParams = (query) => {
-  const { type, isFavourite } = query;
+  const contactType = Object.values(CONTACTS_FILTER.CONTACT_TYPE).includes(
+    query.contactType,
+  )
+    ? query.contactType
+    : CONTACTS_FILTER.CONTACT_TYPE.PERSONAL;
 
-  const parsedType = parseType(type);
-  const parsedIsFavourite = parseIsFavourite(isFavourite);
+  const isFavourite = query.isFavourite === BOOLEANS.TRUE ? true : false;
 
-  return {
-    type: parsedType,
-    isFavourite: parsedIsFavourite,
-  };
+  return { contactType, isFavourite: isFavourite };
 };
